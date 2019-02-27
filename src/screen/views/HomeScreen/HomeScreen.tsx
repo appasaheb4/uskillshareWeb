@@ -3,7 +3,14 @@ import ReactDOM from "react-dom";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { Button, Container, Row, Col } from "reactstrap";
-import { FaGithub, FaWhatsapp, FaFacebook } from "react-icons/fa";
+import {
+  FaGithub,
+  FaWhatsapp,
+  FaFacebook,
+  FaFacebookMessenger,
+  FaInstagram,
+  FaTwitter
+} from "react-icons/fa";
 
 import GoogleMapReact from "google-map-react";
 import { GithubLoginButton } from "react-social-login-buttons";
@@ -11,6 +18,7 @@ import "./HomeScreen.css";
 
 //TODO: Custome Object
 import { colors } from "../../../app/constants/Constants";
+var nodemailer = require("nodemailer");
 
 export default class HomeScreen extends Component<any, any> {
   constructor(props: any) {
@@ -45,6 +53,34 @@ export default class HomeScreen extends Component<any, any> {
       title: "Appasaheb Lakade"
     });
   };
+
+  //TODO: func click_SentMessage
+
+  click_SentMessage(e: any) {
+    e.preventDefault();
+
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "onlyappasaheb4@gmail.com",
+        pass: ""
+      }
+    });
+    var mailOptions = {
+      from: "onlyappasaheb4@gmail.com",
+      to: "onlyappasaheb4@gmail.com",
+      subject: "Sending Email using Node.js",
+      text: "That was easy!"
+    };
+    transporter.sendMail(mailOptions, function(error: any, info: any) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+    alert("working..");
+  }
   render() {
     const images = [
       {
@@ -85,6 +121,7 @@ export default class HomeScreen extends Component<any, any> {
           <Row>
             <Col md="4">
               <GithubLoginButton
+                style={btnGithub}
                 onClick={() =>
                   this.routeChange(
                     "https://github.com/appasaheb4/Tutorial-How-to-nodejs-and-database-connect-in-live-server-heroku-in-reactweb-"
@@ -98,6 +135,7 @@ export default class HomeScreen extends Component<any, any> {
             </Col>
             <Col md="4">
               <GithubLoginButton
+                style={btnGithub}
                 onClick={() =>
                   this.routeChange(
                     "https://github.com/appasaheb4/Tutorial_How-to-create-nodejs-and-database-connection-in-local-in-reactWeb"
@@ -109,6 +147,7 @@ export default class HomeScreen extends Component<any, any> {
             </Col>
             <Col md="4">
               <GithubLoginButton
+                style={btnGithub}
                 onClick={() =>
                   this.routeChange(
                     "https://github.com/appasaheb4/StMichaelSchoolApp"
@@ -120,6 +159,7 @@ export default class HomeScreen extends Component<any, any> {
             </Col>
             <Col md="4">
               <GithubLoginButton
+                style={btnGithub}
                 onClick={() =>
                   this.routeChange("https://github.com/appasaheb4/SliderApp")
                 }
@@ -129,6 +169,7 @@ export default class HomeScreen extends Component<any, any> {
             </Col>
             <Col md="4">
               <GithubLoginButton
+                style={btnGithub}
                 onClick={() =>
                   this.routeChange("https://github.com/appasaheb4/SliderWeb")
                 }
@@ -168,26 +209,76 @@ export default class HomeScreen extends Component<any, any> {
                 height: 1
               }}
             />
-            <Row style={{ alignItems: "center", textAlign: "center" }}>
-              <Col md="12">
-                <h6>Hadapsar,Pune,India 411013</h6>
-                <h6>onlyappasaheb4@gmail.com</h6>
-              </Col>
-              <div style={{ height: "400px", width: "100%" }}>
-                <GoogleMapReact
-                  bootstrapURLKeys={{
-                    key: "AIzaSyDAsEi0ofGCstGVAj4wwj1BlwU0gTOu-xw"
-                  }}
-                  defaultCenter={this.state.center}
-                  defaultZoom={this.state.zoom}
-                  yesIWantToUseGoogleMapApiInternals={true}
-                  onGoogleApiLoaded={({ map, maps }) =>
-                    this.renderMarker(map, maps)
-                  }
-                />
-              </div>
-            </Row>
+
+            <div style={itemCenter}>
+              <Row>
+                <Col md="12">
+                  <h6>Hadapsar,Pune,India 411013</h6>
+                </Col>
+              </Row>
+            </div>
+
+            <div style={itemCenter}>
+              <Row>
+                <Col md="12" style={{ marginTop: 30 }}>
+                  <span>Send Message</span>
+                  <Col className="offset-md-4" md="4" style={{ marginTop: 10 }}>
+                    <form onSubmit={this.click_SentMessage.bind(this)}>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          placeholder="Name"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="email"
+                          name="email"
+                          className="form-control"
+                          placeholder="Email*"
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <textarea
+                          name="message"
+                          className="form-control"
+                          placeholder="Message *"
+                          required
+                        />
+                      </div>
+                      <div style={{ textAlign: "center" }}>
+                        <div className="form-group">
+                          <input
+                            type="submit"
+                            className="btn btn-primary btn-full btnFull"
+                            value="Send"
+                          />
+                        </div>
+                      </div>
+                    </form>
+                  </Col>
+                </Col>
+              </Row>
+            </div>
           </div>
+          <Row>
+            <div style={{ height: "400px", width: "100%" }}>
+              <GoogleMapReact
+                bootstrapURLKeys={{
+                  key: "AIzaSyDAsEi0ofGCstGVAj4wwj1BlwU0gTOu-xw"
+                }}
+                defaultCenter={this.state.center}
+                defaultZoom={this.state.zoom}
+                yesIWantToUseGoogleMapApiInternals={true}
+                onGoogleApiLoaded={({ map, maps }) =>
+                  this.renderMarker(map, maps)
+                }
+              />
+            </div>
+          </Row>
         </div>
         <br />
         <div style={{ textAlign: "center" }}>
@@ -213,8 +304,39 @@ export default class HomeScreen extends Component<any, any> {
           >
             <FaFacebook />
           </Button>
+          <Button
+            style={{ backgroundColor: colors.social_Messager, margin: 5 }}
+            onClick={() => this.routeChange("http://m.me/2262592607346139")}
+          >
+            <FaFacebookMessenger />
+          </Button>
+          <Button
+            style={{ backgroundColor: colors.social_Instagram, margin: 5 }}
+            onClick={() => {
+              this.routeChange("http://www.instagram.com/appasaheblakade");
+            }}
+          >
+            <FaInstagram />
+          </Button>
+          <Button
+            style={{ backgroundColor: colors.social_Twitter, margin: 5 }}
+            onClick={() => {
+              this.routeChange("https://twitter.com/Appasah73911269");
+            }}
+          >
+            <FaTwitter />
+          </Button>
         </div>
       </Container>
     );
   }
 }
+
+const btnGithub = {
+  fontSize: 15
+} as React.CSSProperties;
+
+const itemCenter = {
+  alignItems: "center",
+  textAlign: "center"
+} as React.CSSProperties;
