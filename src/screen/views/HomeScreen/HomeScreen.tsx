@@ -3,10 +3,14 @@ import ReactDOM from "react-dom";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import { Button, Container, Row, Col } from "reactstrap";
+import { FaGithub, FaWhatsapp, FaFacebook } from "react-icons/fa";
 
 import GoogleMapReact from "google-map-react";
 import { GithubLoginButton } from "react-social-login-buttons";
 import "./HomeScreen.css";
+
+//TODO: Custome Object
+import { colors } from "../../../app/constants/Constants";
 
 export default class HomeScreen extends Component<any, any> {
   constructor(props: any) {
@@ -185,7 +189,31 @@ export default class HomeScreen extends Component<any, any> {
             </Row>
           </div>
         </div>
-        <div />
+        <br />
+        <div style={{ textAlign: "center" }}>
+          <Button
+            style={{ backgroundColor: colors.social_Github, margin: 5 }}
+            onClick={() => this.routeChange("https://github.com/appasaheb4")}
+          >
+            <FaGithub />
+          </Button>
+          <Button
+            style={{ backgroundColor: colors.social_Whatsup, margin: 5 }}
+            onClick={() => this.routeChange("https://wa.me/919260303151")}
+          >
+            <FaWhatsapp />
+          </Button>
+          <Button
+            style={{ backgroundColor: colors.social_Facebook, margin: 5 }}
+            onClick={() =>
+              this.routeChange(
+                "https://www.facebook.com/Uskill-Share-2262592607346139/?modal=admin_todo_tour"
+              )
+            }
+          >
+            <FaFacebook />
+          </Button>
+        </div>
       </Container>
     );
   }
