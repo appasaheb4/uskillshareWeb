@@ -1,10 +1,3 @@
-// import dotenv from "dotenv";
-// const result = dotenv.config();
-//
-// if (result.error) {
-//   throw result.error;
-// }
-
 //Colors
 var colors = {
   appColor: "#FFFFFF",
@@ -17,11 +10,11 @@ var colors = {
   social_Twitter: "#4AA0EB"
 };
 
-//Rest Full Api
-const domain = "https://api.github.com/";
+//Rest Full Api  
+const domain = process.env.REACT_APP_API_DOMIN_DEV;
 var apiary = {
   domain: domain,
-  repo: domain + "users/appasaheb4/repos?per_page=1000"
+  repo: domain + process.env.REACT_APP_API_ALLGITHUBREPO,
 };
 
 export { colors, apiary };
