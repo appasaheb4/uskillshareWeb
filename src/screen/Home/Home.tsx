@@ -37,19 +37,32 @@ import { onCommonPostInsert } from "../../redux/actions/common";
 export default function Home( props ) {
   const [ loginModal, setLoginModal ] = useState( false );
   const [ signUpModal, setSignUpModal ] = useState( false );
+  const [ loginType, setLoginType ] = useState( "login" );
 
   const dispatch = useDispatch();
   const { resultPostInsert } = useSelector( state => state.common );
 
   useEffect( () => {
     let res = resultPostInsert.res;
+    console.log( { res } );
     if ( res != undefined ? res : false ) {
-      if ( res.statusCode == 200 ) {
-        setSignUpModal( !signUpModal );
-        ToastsStore.success( res.data );
+      if ( loginType == "signUp" ) {
+        if ( res.statusCode == 200 ) {
+          setSignUpModal( !signUpModal );
+          ToastsStore.success( res.data );
+        } else {
+          ToastsStore.success( res.data.msg );
+        }
       } else {
-        ToastsStore.success( res.data.msg );
+        if ( res.statusCode == 200 ) {
+          window.localStorage.setItem( "userDetails", JSON.stringify( res.data.results[ 0 ] ) );
+          setLoginModal( !loginModal );
+          ToastsStore.success( res.data.msg );
+        } else {
+          ToastsStore.success( res.data.msg );
+        }
       }
+
     }
   }, [ resultPostInsert ] )
 
@@ -64,8 +77,8 @@ export default function Home( props ) {
   // Sign Up
   const click_SignUp = async ( e ) => {
     e.preventDefault();
-    console.log( { e } );
     if ( e.target.password.value == e.target.confirmPassword.value ) {
+      setLoginType( "signUp" );
       let data = {
         date: getUnixTimeDate( new Date() ),
         name: e.target.name.value,
@@ -77,6 +90,16 @@ export default function Home( props ) {
     } else {
       ToastsStore.warning( "Please enter correct password." );
     }
+  }
+
+  const click_Login = async ( e ) => {
+    e.preventDefault();
+    setLoginType( "login" );
+    let data = {
+      email: e.target.email.value,
+      password: e.target.password.value
+    }
+    dispatch( onCommonPostInsert( { url: apiary.loginUser, data } ) );
   }
 
   return (
@@ -199,7 +222,7 @@ export default function Home( props ) {
       </div>
       <Modal isOpen={ loginModal } toggle={ toogleModel } >
         <ModalHeader>Login</ModalHeader>
-        <form>
+        <form onSubmit={ ( e ) => click_Login( e ) }>
           <ModalBody>
             <div className="form-group form-inline">
               <label className="col-3">Email</label>
