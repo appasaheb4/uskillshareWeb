@@ -1,15 +1,28 @@
 import { applyMiddleware, createStore, combineReducers } from "redux";
-import { Provider } from "react-redux";
 import createSagaMiddleware from "redux-saga";
 import { call, all, spawn } from "redux-saga/effects";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 // Reducers
+import commonReducers from "./reducers/common";
 import homeDetialsReducers from "./reducers/homeDetails";
+
 // Watcher
+import {
+  commonGetWithParaWatcher,
+  commonPostInsertWatcher,
+  commonPostUpdateWatcher,
+  commonPostDeleteWatcher
+} from "./sagas/common";
 import { userListWatcher } from "./sagas/homeDetails";
+
 const rootSaga = function*() {
   const sagas = [
+    //common
+    commonGetWithParaWatcher,
+    commonPostInsertWatcher,
+    commonPostUpdateWatcher,
+    commonPostDeleteWatcher,
     // home Detials
     userListWatcher
   ];
@@ -31,6 +44,7 @@ const rootSaga = function*() {
 };
 
 const rootReducer = combineReducers({
+  common: commonReducers,
   home: homeDetialsReducers
 });
 
@@ -39,6 +53,6 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
-sagaMiddleware.run(rootSaga);
 
-export { store, Provider };
+sagaMiddleware.run(rootSaga);
+export { store };

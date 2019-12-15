@@ -4,5 +4,11 @@ export default {
   FiraSansItalic: "FiraSans-Italic",
   FiraSansMedium: "FiraSans-Medium",
   FiraSansMediumItalic: "FiraSans-MediumItalic",
-  OpenSans: "OpenSans"
+  OpenSans: "OpenSans",
+
+  //Lobster
+  LobsterRegular: "Lobster-Regular",
+
+  //VoiceActivatedBB
+  Maquire: "Maquire"
 };

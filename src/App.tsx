@@ -17,6 +17,11 @@ const Home = Loadable( {
   loading
 } );
 
+const About = Loadable( {
+  loader: () =>
+    import( "./screen/About/About" ),
+  loading
+} )
 const Contact = Loadable( {
   loader: () =>
     import( "./screen/Contact/Contact" ),
@@ -29,9 +34,10 @@ export default function App( props ) {
       <BrowserRouter>
         <Switch>
           <Route exact path={ "/" } component={ Home } />
+          <Route exact path={ "/about" } component={ About } />
           <Route exact path={ "/contact" } component={ Contact } />
         </Switch>
       </BrowserRouter>
     </Provider>
   );
-}    
+}        

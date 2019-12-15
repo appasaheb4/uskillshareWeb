@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Collapse,
     Navbar,
@@ -10,8 +10,7 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem,
-    NavbarText
+    DropdownItem
 } from 'reactstrap';
 
 import fonts from "../../common/Fonts";
@@ -19,6 +18,10 @@ import colors from "../../common/Colors";
 
 export default function TopNavbarComp( props ) {
     const [ isOpen, setIsOpen ] = useState( false );
+
+    useEffect( () => {
+        console.log( { props } );
+    } );
 
     const toggle = () => setIsOpen( !isOpen );
     return (
@@ -28,7 +31,7 @@ export default function TopNavbarComp( props ) {
             <Collapse isOpen={ isOpen } navbar>
                 <Nav className="mr-auto" navbar>
                     <NavItem>
-                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/components/">About</NavLink>
+                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/about">About</NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">Contact</NavLink>
@@ -40,10 +43,10 @@ export default function TopNavbarComp( props ) {
                             Select
               </DropdownToggle>
                         <DropdownMenu right>
-                            <DropdownItem style={ { fontFamily: fonts.OpenSans } }>
+                            <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickLogin() }>
                                 Login
                 </DropdownItem>
-                            <DropdownItem style={ { fontFamily: fonts.OpenSans } }>
+                            <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickSignUp() }>
                                 Sign Up
                 </DropdownItem>
                         </DropdownMenu>
