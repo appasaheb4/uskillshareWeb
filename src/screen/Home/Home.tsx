@@ -12,9 +12,14 @@ import {
   Tab,
   ListGroup,
   Card,
-  Image
+  Image,
+  ButtonToolbar,
+  DropdownButton,
+  Dropdown,
+  SplitButton
 } from 'react-bootstrap';
 import { ToastsContainer, ToastsStore } from "react-toasts";
+//import Select from 'react-select';
 
 import "./Home.css";
 
@@ -38,6 +43,10 @@ export default function Home( props ) {
   const [ loginModal, setLoginModal ] = useState( false );
   const [ signUpModal, setSignUpModal ] = useState( false );
   const [ loginType, setLoginType ] = useState( "login" );
+  const [ userDetails, setUserDetails ] = useState( null );
+  const [ flagPostNotes, setFlagPostNotes ] = useState( false );
+  //const [ langNotesList, setLangNotesList ] = useState( [ { lable: "one", value: "one" } ] );
+
 
   const dispatch = useDispatch();
   const { resultPostInsert } = useSelector( state => state.common );
@@ -55,7 +64,9 @@ export default function Home( props ) {
         }
       } else {
         if ( res.statusCode == 200 ) {
-          window.localStorage.setItem( "userDetails", JSON.stringify( res.data.results[ 0 ] ) );
+          let userDel = res.data.results[ 0 ];
+          window.localStorage.setItem( "userDetails", JSON.stringify( userDel ) );
+          setUserDetails( userDel );
           setLoginModal( !loginModal );
           ToastsStore.success( res.data.msg );
         } else {
@@ -66,6 +77,11 @@ export default function Home( props ) {
     }
   }, [ resultPostInsert ] )
 
+  useEffect( () => {
+    let userDetails = JSON.parse( window.localStorage.getItem( "userDetails" ) );
+    setUserDetails( userDetails );
+  }, [] )
+
   // model popup 
   const toogleModel = () => {
     setLoginModal( !loginModal );
@@ -74,7 +90,16 @@ export default function Home( props ) {
     setSignUpModal( !signUpModal );
   }
 
-  // Sign Up
+  const tooglePostNotes = () => {
+    setFlagPostNotes( !flagPostNotes );
+  }
+
+  const clickLogout = () => {
+    setUserDetails( null );
+    window.localStorage.removeItem( "userDetails" );
+  }
+
+  // Sign Up  
   const click_SignUp = async ( e ) => {
     e.preventDefault();
     if ( e.target.password.value == e.target.confirmPassword.value ) {
@@ -105,8 +130,14 @@ export default function Home( props ) {
   return (
     <div >
       <div>
-        <TopNavbarComp clickLogin={ () => toogleModel()
-        } clickSignUp={ () => toogleSignUpModel() } />
+        <TopNavbarComp
+          userDetails={ userDetails }
+          clickLogin={ () => toogleModel() }
+          clickSignUp={ () => toogleSignUpModel() }
+          clickPostNotes={ () => tooglePostNotes() }
+          clickPostVideos={ () => alert( 'commin soon' ) }
+          clickLogout={ () => clickLogout() }
+        />
       </div>
       <div>
         <Jumbotron style={ { textAlign: "center" } }>
@@ -220,6 +251,9 @@ export default function Home( props ) {
       <div>
         <BottomNavbarComp />
       </div>
+
+      {/* Modal Login */ }
+
       <Modal isOpen={ loginModal } toggle={ toogleModel } >
         <ModalHeader>Login</ModalHeader>
         <form onSubmit={ ( e ) => click_Login( e ) }>
@@ -238,6 +272,9 @@ export default function Home( props ) {
           </ModalFooter>
         </form>
       </Modal>
+
+      {/* Modal Sign Up */ }
+
       <Modal isOpen={ signUpModal } toggle={ toogleSignUpModel } >
         <ModalHeader>Sign Up</ModalHeader>
         <form onSubmit={ ( e ) => click_SignUp( e ) }>
@@ -268,6 +305,50 @@ export default function Home( props ) {
           </ModalFooter>
         </form>
       </Modal>
+
+      {/* Modal Post Notes */ }
+      {/* <Modal isOpen={ flagPostNotes } toggle={ tooglePostNotes } >
+        <ModalHeader>Post Notes</ModalHeader>
+        <form onSubmit={ ( e ) => click_SignUp( e ) }>
+          <ModalBody>  
+            <div className="form-group form-inline">
+              <label className="col-3">Name</label>
+              <div className="col-md-7">
+                <Select
+                  autoFocus={ true }
+                  //placeholder={ selectedOption }
+                  // value={ selectedOption }
+                  // onChange={ handleChange }
+                  options={ langNotesList }
+                />
+              </div>  
+            </div>
+            <div className="form-group form-inline">
+              <label className="col-3">Mobile No</label>
+              <input className="form-control col-7" type="text" name="mobileNo" placeholder="Mobile No" required />
+            </div>
+            <div className="form-group form-inline">
+              <label className="col-3">Email</label>
+              <input className="form-control col-7" type="email" name="email" placeholder="Email" required />
+            </div>
+            <div className="form-group form-inline">
+              <label className="col-3">Password</label>
+              <input className="form-control col-7" type="password" name="password" placeholder="Password" required />
+            </div>
+            <div className="form-group form-inline">
+              <label className="col-3">Confirm Password</label>
+              <input className="form-control col-7" type="password" name="confirmPassword" placeholder="Confirm Password" required />
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button type="submit" color="primary" >Sign Up</Button>
+          </ModalFooter>
+        </form>
+      </Modal> */}
+
+      {/* Modal Post Videos */ }
+
+
       <ToastsContainer store={ ToastsStore } />
     </div>
   );

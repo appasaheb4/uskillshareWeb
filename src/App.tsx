@@ -28,7 +28,7 @@ const Contact = Loadable( {
   loading
 } )
 
-export default function App( props ) {
+export default function App( props: any ) {
   return (
     <Provider store={ store }>
       <BrowserRouter>

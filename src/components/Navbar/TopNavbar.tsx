@@ -18,19 +18,8 @@ import colors from "../../common/Colors";
 
 export default function TopNavbarComp( props ) {
     const [ isOpen, setIsOpen ] = useState( false );
-    const [ userDetails, setUserDetails ] = useState( {} );
-    useEffect( () => {
-        let userDetails = JSON.parse( window.localStorage.getItem( "userDetails" ) );
-        setUserDetails( userDetails );
-    } );
 
     const toggle = () => setIsOpen( !isOpen );
-
-    const clickLogout = () => {
-        alert( 'hi' )
-        window.localStorage.removeItem( "userDetails" );
-    }
-
     return (
         <Navbar color="primary" light expand="md">
             <NavbarBrand href="/" style={ { fontFamily: fonts.FiraSansBold, color: colors.white } }>USkill Share</NavbarBrand>
@@ -45,17 +34,22 @@ export default function TopNavbarComp( props ) {
                     </NavItem>
                 </Nav>
                 <Nav className="dropdown-menu-right" navbar>
-                    { userDetails != {} ? (
+                    { props.userDetails != null ? (
                         <UncontrolledDropdown nav inNavbar>
                             < DropdownToggle nav caret style={ { color: colors.white, fontFamily: fonts.OpenSans } }>
-                                hi { userDetails.name }
+                                hi { props.userDetails.name }
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => clickLogout() }>
+                                <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickPostNotes() }>
+                                    Post Notes
+                </DropdownItem>
+                                <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickPostVideos() }>
+                                    Post Videos
+                </DropdownItem>
+                                <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickLogout() }>
                                     Logout
                 </DropdownItem>
                             </DropdownMenu>
-
                         </UncontrolledDropdown>
                     ) : (
                             <UncontrolledDropdown nav inNavbar>
