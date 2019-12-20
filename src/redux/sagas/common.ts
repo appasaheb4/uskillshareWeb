@@ -3,8 +3,8 @@ import { helperWatcher } from "../utils/utilities";
 import axios from "axios";
 
 import {
-  // GET,
-  // GET_RESULT,
+  GET,
+  GET_RESULT,
   GET_WITHPARA,
   GET_WITHPARA_RESULT,
   POST_INSERT,
@@ -14,6 +14,33 @@ import {
   POST_DELETE,
   POST_DELETE_RESULT
 } from "../actions/common";
+
+function* getWithWorker(action: any) {
+  const { url } = action;
+  try {
+    console.log({ url });
+    let res = yield axios({
+      method: "get",
+      url
+    })
+      .then((response: any) => {
+        return response.data;
+      })
+      .catch(function(error: any) {
+        return error;
+      });
+    yield put({
+      type: GET_RESULT,
+      payload: {
+        resultGet: {
+          res
+        }
+      }
+    });
+  } catch (e) {
+    console.log("error", e);
+  }
+}
 
 function* getWithParaWorker(action: any) {
   const { url, data } = action;
@@ -127,6 +154,8 @@ function* workerPostDelete(action: any) {
     console.log("error", e);
   }
 }
+
+export const commonGetWatcher = helperWatcher(getWithWorker, GET);
 
 export const commonGetWithParaWatcher = helperWatcher(
   getWithParaWorker,

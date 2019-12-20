@@ -6,25 +6,32 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // Reducers
 import commonReducers from "./reducers/common";
 import homeDetialsReducers from "./reducers/homeDetails";
+import postNotesReducers from "./reducers/postNotes";
 
 // Watcher
 import {
+  commonGetWatcher,
   commonGetWithParaWatcher,
   commonPostInsertWatcher,
   commonPostUpdateWatcher,
   commonPostDeleteWatcher
 } from "./sagas/common";
 import { userListWatcher } from "./sagas/homeDetails";
+import { postNotesWatcher, getPostNotesWatcher } from "./sagas/postNotes";
 
 const rootSaga = function*() {
   const sagas = [
     //common
+    commonGetWatcher,
     commonGetWithParaWatcher,
     commonPostInsertWatcher,
     commonPostUpdateWatcher,
     commonPostDeleteWatcher,
     // home Detials
-    userListWatcher
+    userListWatcher,
+    // post notes
+    postNotesWatcher,
+    getPostNotesWatcher
   ];
 
   yield all(
@@ -45,7 +52,8 @@ const rootSaga = function*() {
 
 const rootReducer = combineReducers({
   common: commonReducers,
-  home: homeDetialsReducers
+  home: homeDetialsReducers,
+  postNotes: postNotesReducers
 });
 
 const sagaMiddleware = createSagaMiddleware();

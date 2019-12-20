@@ -19,25 +19,22 @@ import {
   SplitButton
 } from 'react-bootstrap';
 import { ToastsContainer, ToastsStore } from "react-toasts";
-//import Select from 'react-select';
+import Select from 'react-select';
 
 import "./Home.css";
 
+import { TopNavbarComp, BottomNavbarComp } from "../../components/Navbar";
 
-var nodemailer = require( "nodemailer" );
-
-import TopNavbarComp from "../../components/Navbar/TopNavbar";
-import BottomNavbarComp from "../../components/Navbar/BottomNavbar";
-
-//TODO: Custome Object
+//TODO: Custom Object
 import { apiary } from "../../common/constants/Constants";
-import { getUnixTimeDate } from "../../common/constants/utils";
+import { getUnixTimeDate, getUnixToDateFormat } from "../../common/constants/utils";
 import fonts from "../../common/Fonts";
 import colors from "../../common/Colors";
 
 
 import { useDispatch, useSelector } from "react-redux";
-import { onCommonPostInsert } from "../../redux/actions/common";
+import { onCommonPostInsert, onCommonGet } from "../../redux/actions/common";
+import { onPostNotes, onGetPostNotes } from "../../redux/actions/postNotes";
 
 export default function Home( props ) {
   const [ loginModal, setLoginModal ] = useState( false );
@@ -45,42 +42,48 @@ export default function Home( props ) {
   const [ loginType, setLoginType ] = useState( "login" );
   const [ userDetails, setUserDetails ] = useState( null );
   const [ flagPostNotes, setFlagPostNotes ] = useState( false );
-  //const [ langNotesList, setLangNotesList ] = useState( [ { lable: "one", value: "one" } ] );
-
+  const [ langNotesList, setLangNotesList ] = useState( [] );
+  const [ selectedLangNotes, setSelectedLangNotes ] = useState( {} );
+  const [ arrPostNotes, setArrPostNotes ] = useState( [] );
+  const [ flagProfile, setFlagProfile ] = useState( false );
 
   const dispatch = useDispatch();
-  const { resultPostInsert } = useSelector( state => state.common );
-
-  useEffect( () => {
-    let res = resultPostInsert.res;
-    console.log( { res } );
-    if ( res != undefined ? res : false ) {
-      if ( loginType == "signUp" ) {
-        if ( res.statusCode == 200 ) {
-          setSignUpModal( !signUpModal );
-          ToastsStore.success( res.data );
-        } else {
-          ToastsStore.success( res.data.msg );
-        }
-      } else {
-        if ( res.statusCode == 200 ) {
-          let userDel = res.data.results[ 0 ];
-          window.localStorage.setItem( "userDetails", JSON.stringify( userDel ) );
-          setUserDetails( userDel );
-          setLoginModal( !loginModal );
-          ToastsStore.success( res.data.msg );
-        } else {
-          ToastsStore.success( res.data.msg );
-        }
-      }
-
-    }
-  }, [ resultPostInsert ] )
+  const { resultPostInsert, resultGet } = useSelector( state => state.common );
+  const { resultPostNotesInsert, resultGetPostNotes } = useSelector( state => state.postNotes );
 
   useEffect( () => {
     let userDetails = JSON.parse( window.localStorage.getItem( "userDetails" ) );
     setUserDetails( userDetails );
+    dispatch( onCommonGet( { url: apiary.getAllLang } ) );
+    dispatch( onGetPostNotes( { url: apiary.getPostNotes } ) );
   }, [] )
+
+
+  useEffect( () => {
+    let res = resultGet.res;
+    if ( res != undefined ? res : false ) {
+      let arrLangList = [];
+      for ( let i = 0; i < res.data.length; i++ ) {
+        let data = {};
+        data.value = res.data[ i ];
+        data.label = res.data[ i ].langName;
+        arrLangList.push( data );
+      }
+      setSelectedLangNotes( arrLangList[ 0 ].value )
+      setLangNotesList( arrLangList );
+    }
+  }, [ resultGet ] )
+
+  useEffect( () => {
+    let res = resultGetPostNotes.res;
+    if ( res != undefined ? res : false )
+      setArrPostNotes( res.data );
+
+  }, [ resultGetPostNotes ] )
+
+
+
+
 
   // model popup 
   const toogleModel = () => {
@@ -92,6 +95,10 @@ export default function Home( props ) {
 
   const tooglePostNotes = () => {
     setFlagPostNotes( !flagPostNotes );
+  }
+
+  const toogleProfile = () => {
+    setFlagProfile( !flagProfile );
   }
 
   const clickLogout = () => {
@@ -127,6 +134,63 @@ export default function Home( props ) {
     dispatch( onCommonPostInsert( { url: apiary.loginUser, data } ) );
   }
 
+
+  useEffect( () => {
+    let res = resultPostInsert.res;
+    console.log( { res } );
+    if ( res != undefined ? res : false ) {
+      if ( loginType == "signUp" ) {
+        if ( res.statusCode == 200 ) {
+          setSignUpModal( !signUpModal );
+          ToastsStore.success( res.data );
+        } else {
+          ToastsStore.success( res.data.msg );
+        }
+      } else {
+        if ( res.statusCode == 200 ) {
+          let userDel = res.data.results[ 0 ];
+          window.localStorage.setItem( "userDetails", JSON.stringify( userDel ) );
+          setUserDetails( userDel );
+          setLoginModal( !loginModal );
+          ToastsStore.success( res.data.msg );
+        } else {
+          ToastsStore.success( res.data.msg );
+        }
+      }
+    }
+  }, [ resultPostInsert ] )
+
+
+  const click_PostNotes = async ( e ) => {
+    e.preventDefault();
+    let data = {
+      date: getUnixTimeDate( new Date() ),
+      title: e.target.title.value,
+      descri: e.target.descri.value,
+      sourceCode: e.target.sourceCode.value,
+      langId: selectedLangNotes.id,
+      userId: userDetails.id
+    }
+    dispatch( onPostNotes( { url: apiary.postNotes, data } ) )
+    console.log( { data } );
+  }
+
+
+
+  useEffect( () => {
+    let res = resultPostNotesInsert.res;
+    console.log( { res } );
+    if ( res != undefined ? res : false ) {
+      if ( res.statusCode == 200 ) {
+        ToastsStore.success( res.data );
+      } else {
+        ToastsStore.success( res.data.msg );
+      }
+      tooglePostNotes();
+    }
+  }, [ resultPostNotesInsert ] );
+
+
   return (
     <div >
       <div>
@@ -155,46 +219,47 @@ export default function Home( props ) {
         <Tabs defaultActiveKey="note" id="uncontrolled-tab-example">
           <Tab eventKey="note" title="Notes">
             <div>
-              <ListGroup>
-                <ListGroup.Item >
-                  <Card style={ { width: '100%' } }>
-                    <Card.Header>
-                      <div className="form-inline">
-                        <div className="form-group">
-                          <Image src={ require( '../../assets/images/userDefulat.png' ) } style={ { width: 40, height: 40, marginRight: 10 } } thumbnail />
-                          <h4 style={ { marginRight: 10 } }>Sagar</h4>
-                          <h6>11</h6>
+              { arrPostNotes.map( ( item, index ) => (
+                <ListGroup>
+                  <ListGroup.Item >
+                    <Card style={ { width: '100%' } }>
+                      <Card.Header onClick={ () => toogleProfile() }>
+                        <div className="form-inline" >
+                          <div className="form-group">
+                            <Image src={ apiary.domain + item.userImagePath } style={ { width: 40, height: 40, marginRight: 10 } } thumbnail />
+                            <h4 style={ { marginRight: 10 } }>{ item.name }</h4>
+                            <h6>{ getUnixToDateFormat( item.createDate ) }</h6>
+                          </div>
                         </div>
-                      </div>
-                    </Card.Header>
-                    <Card.Body>
-                      <Row>
-                        <Col xs={ 1.5 }>
-                          <Image src={ require( '../../assets/images/userDefulat.png' ) } style={ { width: 100, height: 100 } } thumbnail />
-                        </Col>
-                        <Col xs={ 10 }>
-                          <Card.Title>Card Title</Card.Title>
-                          <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                      </Card.Text>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                    <Card.Header>
-                      <Fab size="small" style={ { marginRight: 10 } } >
-                        <Favorite fontSize="small" />
-                      </Fab>
-                      <Fab size="small" style={ { marginRight: 10 } }>
-                        <AddComment fontSize="small" />
-                      </Fab>
-                      <Fab size="small">
-                        <Share fontSize="small" />
-                      </Fab>
-                    </Card.Header>
-                  </Card>
-                </ListGroup.Item>
-              </ListGroup>
+                      </Card.Header>
+                      <Card.Body onClick={ () => props.history.push( "postNotes" ) }>
+                        <Row>
+                          <Col xs={ 1.5 }>
+                            <Image src={ require( '../../assets/images/userDefulat.png' ) } style={ { width: 100, height: 100 } } thumbnail />
+                          </Col>
+                          <Col xs={ 10 }>
+                            <Card.Title>{ item.title }</Card.Title>
+                            <Card.Text>
+                              { item.description }
+                            </Card.Text>
+                          </Col>
+                        </Row>
+                      </Card.Body>
+                      <Card.Header>
+                        <Fab size="small" style={ { marginRight: 10 } } >
+                          <Favorite fontSize="small" />
+                        </Fab>
+                        <Fab size="small" style={ { marginRight: 10 } }>
+                          <AddComment fontSize="small" />
+                        </Fab>
+                        <Fab size="small">
+                          <Share fontSize="small" />
+                        </Fab>
+                      </Card.Header>
+                    </Card>
+                  </ListGroup.Item>
+                </ListGroup>
+              ) ) }
             </div>
           </Tab>
           <Tab eventKey="videos" title="Videos">
@@ -274,7 +339,6 @@ export default function Home( props ) {
       </Modal>
 
       {/* Modal Sign Up */ }
-
       <Modal isOpen={ signUpModal } toggle={ toogleSignUpModel } >
         <ModalHeader>Sign Up</ModalHeader>
         <form onSubmit={ ( e ) => click_SignUp( e ) }>
@@ -307,53 +371,59 @@ export default function Home( props ) {
       </Modal>
 
       {/* Modal Post Notes */ }
-      {/* <Modal isOpen={ flagPostNotes } toggle={ tooglePostNotes } >
+      <Modal isOpen={ flagPostNotes } toggle={ tooglePostNotes }>
+
         <ModalHeader>Post Notes</ModalHeader>
-        <form onSubmit={ ( e ) => click_SignUp( e ) }>
-          <ModalBody>  
+        <form onSubmit={ ( e ) => click_PostNotes( e ) }>
+          <ModalBody>
             <div className="form-group form-inline">
-              <label className="col-3">Name</label>
+              <label className="col-3">Language</label>
               <div className="col-md-7">
                 <Select
                   autoFocus={ true }
                   //placeholder={ selectedOption }
                   // value={ selectedOption }
-                  // onChange={ handleChange }
+                  onChange={ ( val ) => setSelectedLangNotes( val.value ) }
                   options={ langNotesList }
                 />
-              </div>  
+              </div>
             </div>
             <div className="form-group form-inline">
-              <label className="col-3">Mobile No</label>
-              <input className="form-control col-7" type="text" name="mobileNo" placeholder="Mobile No" required />
+              <label className="col-3">Title:</label>
+              <input className="form-control col-7" type="text" name="title" placeholder="Title" required />
             </div>
             <div className="form-group form-inline">
-              <label className="col-3">Email</label>
-              <input className="form-control col-7" type="email" name="email" placeholder="Email" required />
+              <label className="col-3">Description:</label>
+              <textarea rows={ 2 } className="form-control col-7" name="descri" placeholder="Description" required></textarea>
             </div>
             <div className="form-group form-inline">
-              <label className="col-3">Password</label>
-              <input className="form-control col-7" type="password" name="password" placeholder="Password" required />
-            </div>
-            <div className="form-group form-inline">
-              <label className="col-3">Confirm Password</label>
-              <input className="form-control col-7" type="password" name="confirmPassword" placeholder="Confirm Password" required />
+              <label className="col-3">Source Code:</label>
+              <textarea rows={ 4 } className="form-control col-7" name="sourceCode" placeholder="Source Code" required></textarea>
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button type="submit" color="primary" >Sign Up</Button>
+            <Button type="submit" color="primary">Post</Button>
           </ModalFooter>
         </form>
-      </Modal> */}
-
+      </Modal>
       {/* Modal Post Videos */ }
 
 
+      {/* Model Profile Details */ }
+
+      <Modal isOpen={ flagProfile } toggle={ toogleProfile }>
+        <ModalHeader>Profile</ModalHeader>
+        <ModalBody>
+          <div className="form-group form-inline">
+            <label className="col-3">Name:</label>
+            <input className="form-control col-7" value={ "hi" } disabled />
+          </div>
+        </ModalBody>
+      </Modal>
       <ToastsContainer store={ ToastsStore } />
-    </div>
+    </div >
   );
 }
-
 
 const itemCenter = {
   alignItems: "center",
