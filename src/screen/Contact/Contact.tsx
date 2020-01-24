@@ -184,16 +184,6 @@ export default function Contact( props ) {
                     <FaYoutube />
                 </Button>
                 <Button
-                    style={ { backgroundColor: colors.social_Facebook, margin: 5 } }
-                    onClick={ () =>
-                        routeChange(
-                            "https://www.facebook.com/Uskill-Share-2262592607346139/?modal=admin_todo_tour"
-                        )
-                    }
-                >
-                    <FaFacebook />
-                </Button>
-                <Button
                     style={ { backgroundColor: colors.social_Messager, margin: 5 } }
                     onClick={ () => routeChange( "http://m.me/2262592607346139" ) }
                 >
@@ -210,18 +200,10 @@ export default function Contact( props ) {
                 <Button
                     style={ { backgroundColor: colors.social_Twitter, margin: 5 } }
                     onClick={ () => {
-                        routeChange( "https://twitter.com/Appasah73911269" );
+                        routeChange( "https://twitter.com/Appasah17162326" );
                     } }
                 >
                     <FaTwitter />
-                </Button>
-                <Button
-                    style={ { backgroundColor: colors.social_Twitter, margin: 5 } }
-                    onClick={ () => {
-                        routeChange( "https://trello.com/appasaheb1" );
-                    } }
-                >
-                    <FaTrello />
                 </Button>
             </div>
             <div>
