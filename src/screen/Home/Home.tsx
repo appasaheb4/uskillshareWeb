@@ -47,39 +47,39 @@ export default function Home( props ) {
   const [ arrPostNotes, setArrPostNotes ] = useState( [] );
   const [ flagProfile, setFlagProfile ] = useState( false );
 
-  const dispatch = useDispatch();
-  const { resultPostInsert, resultGet } = useSelector( state => state.common );
-  const { resultPostNotesInsert, resultGetPostNotes } = useSelector( state => state.postNotes );
+  // const dispatch = useDispatch();
+  // const { resultPostInsert, resultGet } = useSelector( state => state.common );
+  // const { resultPostNotesInsert, resultGetPostNotes } = useSelector( state => state.postNotes );
 
-  useEffect( () => {
-    let userDetails = JSON.parse( window.localStorage.getItem( "userDetails" ) );
-    setUserDetails( userDetails );
-    dispatch( onCommonGet( { url: apiary.getAllLang } ) );
-    dispatch( onGetPostNotes( { url: apiary.getPostNotes } ) );
-  }, [] )
+  // useEffect( () => {
+  //   let userDetails = JSON.parse( window.localStorage.getItem( "userDetails" ) );
+  //   setUserDetails( userDetails );
+  //   dispatch( onCommonGet( { url: apiary.getAllLang } ) );
+  //   dispatch( onGetPostNotes( { url: apiary.getPostNotes } ) );
+  // }, [] )
 
 
-  useEffect( () => {
-    let res = resultGet.res;
-    if ( res != undefined ? res : false ) {
-      let arrLangList = [];
-      for ( let i = 0; i < res.data.length; i++ ) {
-        let data = {};
-        data.value = res.data[ i ];
-        data.label = res.data[ i ].langName;
-        arrLangList.push( data );
-      }
-      setSelectedLangNotes( arrLangList[ 0 ].value )
-      setLangNotesList( arrLangList );
-    }
-  }, [ resultGet ] )
+  // useEffect( () => {
+  //   let res = resultGet.res;
+  //   if ( res != undefined ? res : false ) {
+  //     let arrLangList = [];
+  //     for ( let i = 0; i < res.data.length; i++ ) {
+  //       let data = {};
+  //       data.value = res.data[ i ];
+  //       data.label = res.data[ i ].langName;
+  //       arrLangList.push( data );
+  //     }
+  //     setSelectedLangNotes( arrLangList[ 0 ].value )
+  //     setLangNotesList( arrLangList );
+  //   }
+  // }, [ resultGet ] )
 
-  useEffect( () => {
-    let res = resultGetPostNotes.res;
-    if ( res != undefined ? res : false )
-      setArrPostNotes( res.data );
+  // useEffect( () => {
+  //   let res = resultGetPostNotes.res;
+  //   if ( res != undefined ? res : false )
+  //     setArrPostNotes( res.data );
 
-  }, [ resultGetPostNotes ] )
+  // }, [ resultGetPostNotes ] )
 
 
 
@@ -118,7 +118,7 @@ export default function Home( props ) {
         email: e.target.email.value,
         password: e.target.confirmPassword.value
       }
-      dispatch( onCommonPostInsert( { url: apiary.registration, data } ) );
+      // dispatch( onCommonPostInsert( { url: apiary.registration, data } ) );
     } else {
       ToastsStore.warning( "Please enter correct password." );
     }
@@ -131,34 +131,34 @@ export default function Home( props ) {
       email: e.target.email.value,
       password: e.target.password.value
     }
-    dispatch( onCommonPostInsert( { url: apiary.loginUser, data } ) );
+    // dispatch( onCommonPostInsert( { url: apiary.loginUser, data } ) );
   }
 
 
-  useEffect( () => {
-    let res = resultPostInsert.res;
-    console.log( { res } );
-    if ( res != undefined ? res : false ) {
-      if ( loginType == "signUp" ) {
-        if ( res.statusCode == 200 ) {
-          setSignUpModal( !signUpModal );
-          ToastsStore.success( res.data );
-        } else {
-          ToastsStore.success( res.data.msg );
-        }
-      } else {
-        if ( res.statusCode == 200 ) {
-          let userDel = res.data.results[ 0 ];
-          window.localStorage.setItem( "userDetails", JSON.stringify( userDel ) );
-          setUserDetails( userDel );
-          setLoginModal( !loginModal );
-          ToastsStore.success( res.data.msg );
-        } else {
-          ToastsStore.success( res.data.msg );
-        }
-      }
-    }
-  }, [ resultPostInsert ] )
+  // useEffect( () => {
+  //   let res = resultPostInsert.res;
+  //   console.log( { res } );
+  //   if ( res != undefined ? res : false ) {
+  //     if ( loginType == "signUp" ) {
+  //       if ( res.statusCode == 200 ) {
+  //         setSignUpModal( !signUpModal );
+  //         ToastsStore.success( res.data );
+  //       } else {
+  //         ToastsStore.success( res.data.msg );
+  //       }
+  //     } else {
+  //       if ( res.statusCode == 200 ) {
+  //         let userDel = res.data.results[ 0 ];
+  //         window.localStorage.setItem( "userDetails", JSON.stringify( userDel ) );
+  //         setUserDetails( userDel );
+  //         setLoginModal( !loginModal );
+  //         ToastsStore.success( res.data.msg );
+  //       } else {
+  //         ToastsStore.success( res.data.msg );
+  //       }
+  //     }
+  //   }
+  // }, [ resultPostInsert ] )
 
 
   const click_PostNotes = async ( e ) => {
@@ -171,24 +171,24 @@ export default function Home( props ) {
       langId: selectedLangNotes.id,
       userId: userDetails.id
     }
-    dispatch( onPostNotes( { url: apiary.postNotes, data } ) )
+    //dispatch( onPostNotes( { url: apiary.postNotes, data } ) )
     console.log( { data } );
   }
 
 
 
-  useEffect( () => {
-    let res = resultPostNotesInsert.res;
-    console.log( { res } );
-    if ( res != undefined ? res : false ) {
-      if ( res.statusCode == 200 ) {
-        ToastsStore.success( res.data );
-      } else {
-        ToastsStore.success( res.data.msg );
-      }
-      tooglePostNotes();
-    }
-  }, [ resultPostNotesInsert ] );
+  // useEffect( () => {
+  //   let res = resultPostNotesInsert.res;
+  //   console.log( { res } );
+  //   if ( res != undefined ? res : false ) {
+  //     if ( res.statusCode == 200 ) {
+  //       ToastsStore.success( res.data );
+  //     } else {
+  //       ToastsStore.success( res.data.msg );
+  //     }
+  //     tooglePostNotes();
+  //   }
+  // }, [ resultPostNotesInsert ] );
 
 
   return (
