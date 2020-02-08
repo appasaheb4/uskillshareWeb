@@ -35,6 +35,9 @@ export default function TopNavbarComp( props ) {
                     <NavItem>
                         <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">IOS</NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">About</NavLink>
+                    </NavItem>
                 </Nav>
                 <Nav className="dropdown-menu-right" navbar>
                     { props.userDetails != null ? (

@@ -77,7 +77,7 @@ export default function Contact( props ) {
 
             <div>
                 <div>
-                    <h4 style={ { textAlign: "center", paddingTop: 40 } }>TEAM</h4>
+                    <h4 style={ { textAlign: "center", paddingTop: 40, fontFamily: fonts.FiraSansBold } }>About</h4>
                     <hr
                         style={ {
                             color: "#000",
@@ -87,86 +87,20 @@ export default function Contact( props ) {
                     />
                     <Row style={ { alignItems: "center", textAlign: "center" } }>
                         <Col md="12">
-                            <h5 style={ { textDecoration: "underline" } }>
+                            <h5 style={ { textDecoration: "underline", fontFamily: fonts.OpenSans } }>
                                 LAKADE APPASAHEB
-                  </h5>
+                             </h5><br />
                             <img
-                                style={ { width: 200, height: 200 } }
+                                style={ { width: 200, height: 200, borderRadius: '10%' } }
                                 src={ require( "../../assets/images/appasaheb.jpeg" ) }
-                            />
-                            <h6>ios,react-native and reactweb developer</h6>
+                            /><br /><br />
+                            <h6 style={ { fontFamily: fonts.Maquire } }>{
+                                `Hi i'm react and ios native app developer.
+                                I live in Pune, India.
+                                My passion is learn new technologies.`
+                            }</h6>
                         </Col>
                     </Row>
-                </div>
-                <div>
-                    <h4 style={ { textAlign: "center", paddingTop: 40 } }>
-                        CONTACT US
-              </h4>
-                    <hr
-                        style={ {
-                            color: "#000",
-                            backgroundColor: "#000",
-                            height: 1
-                        } }
-                    />
-
-                    <div style={ itemCenter }>
-                        <Row>
-                            <Col md="12">
-                                <h6>Hadapsar,Pune,India 411013</h6>
-                            </Col>
-                        </Row>
-                    </div>
-
-                    <div style={ itemCenter }>
-                        <Row>
-                            <Col md="12" style={ { marginTop: 30 } }>
-                                <span>Send Message</span>
-                                <Col
-                                    className="offset-md-4"
-                                    md="4"
-                                    style={ { marginTop: 10 } }
-                                >
-                                    <form onSubmit={ () => click_SentMessage }>
-                                        <div className="form-group">
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                className="form-control"
-                                                placeholder="Name"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                className="form-control"
-                                                placeholder="Email*"
-                                                required
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <textarea
-                                                name="message"
-                                                className="form-control"
-                                                placeholder="Message *"
-                                                required
-                                            />
-                                        </div>
-                                        <div style={ { textAlign: "center" } }>
-                                            <div className="form-group">
-                                                <input
-                                                    type="submit"
-                                                    className="btn btn-primary btn-full btnFull"
-                                                    value="Send"
-                                                />
-                                            </div>
-                                        </div>
-                                    </form>
-                                </Col>
-                            </Col>
-                        </Row>
-                    </div>
                 </div>
             </div>
             <br />
@@ -206,9 +140,7 @@ export default function Contact( props ) {
                     <FaTwitter />
                 </Button>
             </div>
-            <div>
-                <BottomNavbarComp />
-            </div>
+
 
         </div>
     );

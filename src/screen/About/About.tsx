@@ -41,9 +41,7 @@ export default function About( props ) {
                 <TopNavbarComp />
             </div>
 
-            <div>
-                <h1 style={ { textAlign: "center" } }>comming soon</h1>
-            </div>
+
         </div>
 
 
