@@ -27,10 +27,13 @@ export default function TopNavbarComp( props ) {
             <Collapse isOpen={ isOpen } navbar>
                 <Nav className="mr-auto" navbar>
                     <NavItem>
-                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/about">About</NavLink>
+                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/about">ReactWeb</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">Contact</NavLink>
+                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">React-Native</NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">IOS</NavLink>
                     </NavItem>
                 </Nav>
                 <Nav className="dropdown-menu-right" navbar>
@@ -60,9 +63,9 @@ export default function TopNavbarComp( props ) {
                                     <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickLogin() }>
                                         Login
                 </DropdownItem>
-                                    <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickSignUp() }>
+                                    {/* <DropdownItem style={ { fontFamily: fonts.OpenSans } } onClick={ () => props.clickSignUp() }>
                                         Sign Up
-                </DropdownItem>
+                </DropdownItem> */}
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         )

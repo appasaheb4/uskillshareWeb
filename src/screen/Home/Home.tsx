@@ -204,121 +204,18 @@ export default function Home( props ) {
         />
       </div>
       <div>
-        <Jumbotron style={ { textAlign: "center" } }>
+        <Jumbotron style={ { textAlign: "center", opacity: 0.5 } }>
           <h1 style={ { fontFamily: fonts.Maquire } }>Your Skill Share!</h1>
           <p style={ { fontFamily: fonts.LobsterRegular } }>
-            This site main focus only sharing skill.<br />
-            Security : End to end encryption data.
+            end to end encrypted and decrypted data.
          </p>
-          <p>
-            <Button variant="primary">Learn more</Button>
-          </p>
         </Jumbotron>
       </div>
       <div>
-        <Tabs defaultActiveKey="note" id="uncontrolled-tab-example">
-          <Tab eventKey="note" title="Notes">
-            <div>
-              { arrPostNotes.map( ( item, index ) => (
-                <ListGroup>
-                  <ListGroup.Item >
-                    <Card style={ { width: '100%' } }>
-                      <Card.Header onClick={ () => toogleProfile() }>
-                        <div className="form-inline" >
-                          <div className="form-group">
-                            <Image src={ apiary.domain + item.userImagePath } style={ { width: 40, height: 40, marginRight: 10 } } thumbnail />
-                            <h4 style={ { marginRight: 10 } }>{ item.name }</h4>
-                            <h6>{ getUnixToDateFormat( item.createDate ) }</h6>
-                          </div>
-                        </div>
-                      </Card.Header>
-                      <Card.Body onClick={ () => props.history.push( "postNotes" ) }>
-                        <Row>
-                          <Col xs={ 1.5 }>
-                            <Image src={ require( '../../assets/images/userDefulat.png' ) } style={ { width: 100, height: 100 } } thumbnail />
-                          </Col>
-                          <Col xs={ 10 }>
-                            <Card.Title>{ item.title }</Card.Title>
-                            <Card.Text>
-                              { item.description }
-                            </Card.Text>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      <Card.Header>
-                        <Fab size="small" style={ { marginRight: 10 } } >
-                          <Favorite fontSize="small" />
-                        </Fab>
-                        <Fab size="small" style={ { marginRight: 10 } }>
-                          <AddComment fontSize="small" />
-                        </Fab>
-                        <Fab size="small">
-                          <Share fontSize="small" />
-                        </Fab>
-                      </Card.Header>
-                    </Card>
-                  </ListGroup.Item>
-                </ListGroup>
-              ) ) }
-            </div>
-          </Tab>
-          <Tab eventKey="videos" title="Videos">
-            <div>
-              <ListGroup>
-                <ListGroup.Item >
-                  <Card style={ { width: '100%' } }>
-                    <Card.Header>
-                      <div className="form-inline">
-                        <div className="form-group">
-                          <Image src={ require( '../../assets/images/userDefulat.png' ) } style={ { width: 40, height: 40, marginRight: 10 } } thumbnail />
-                          <h4 style={ { marginRight: 10 } }>Sagar</h4>
-                          <h6>11</h6>
-                        </div>
-                      </div>
-                    </Card.Header>
-                    <Card.Body>
-                      <Row>
-                        <Col xs={ 3 }>
-                          <Player
-                            playsInline
-                            poster="https://lh3.googleusercontent.com/a-/AAuE7mCfo95weVHqGA2sYyE6nK1nWXcjjYF1FULnCRaEaoM=s192-cc-rg"
-                            src="https://media.w3.org/2010/05/sintel/trailer_hd.mp4"
-                            videoId="video-1"
-                          />
-                        </Col>
-                        <Col xs={ 8 }>
-                          <Card.Title>Card Title</Card.Title>
-                          <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                      </Card.Text>
-                        </Col>
-                      </Row>
-                    </Card.Body>
-                    <Card.Header>
-                      <Fab size="small" style={ { marginRight: 10 } } >
-                        <Favorite fontSize="small" />
-                      </Fab>
-                      <Fab size="small" style={ { marginRight: 10 } }>
-                        <AddComment fontSize="small" />
-                      </Fab>
-                      <Fab size="small">
-                        <Share fontSize="small" />
-                      </Fab>
-                    </Card.Header>
-                  </Card>
-                </ListGroup.Item>
-              </ListGroup>
-            </div>
-          </Tab>
-        </Tabs>
-      </div>
-      <div>
-        <BottomNavbarComp />
+
       </div>
 
       {/* Modal Login */ }
-
       <Modal isOpen={ loginModal } toggle={ toogleModel } >
         <ModalHeader>Login</ModalHeader>
         <form onSubmit={ ( e ) => click_Login( e ) }>
