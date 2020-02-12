@@ -95,7 +95,7 @@ export default function Contact( props ) {
                                 src={ require( "../../assets/images/appasaheb.jpeg" ) }
                             /><br /><br />
                             <h6 style={ { fontFamily: fonts.Maquire } }>{
-                                `Hi i'm react,nodejs developer.
+                                `Hi i'm Sr.React,ReactNative,NodeJs developer.
                                 I live in Pune, India.
                                 My passion is learn new technologies.`
                             }</h6>
