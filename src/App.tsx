@@ -23,11 +23,7 @@ const About = Loadable( {
   loading
 } )
 
-const PostNotesDetails = Loadable( {
-  loader: () =>
-    import( "./screen/PostNotes/PostNotesDetails" ),
-  loading
-} )
+
 
 export default function App( props: any ) {
   return (
@@ -36,7 +32,6 @@ export default function App( props: any ) {
         <Switch>
           <Route exact path={ "/" } component={ Home } />
           <Route exact path={ "/about" } component={ About } />
-          <Route exact path={ "/postNotes" } component={ PostNotesDetails } />
         </Switch>
       </BrowserRouter>
     </Provider >
