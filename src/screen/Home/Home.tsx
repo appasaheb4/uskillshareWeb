@@ -24,7 +24,7 @@ import Select from 'react-select';
 import "./Home.css";
 
 import { TopNavbarComp, BottomNavbarComp } from "../../components/Navbar";
-import List from "../../components/Div/List";
+import { List } from "../../components/List";
 
 //TODO: Custom Object
 import { getUnixTimeDate } from "../../common/Utilites";

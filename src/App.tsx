@@ -31,7 +31,7 @@ const PostNotesDetails = Loadable( {
 
 export default function App( props: any ) {
   return (
-    <Provider store={ store }>
+    <Provider store={ store } >
       <BrowserRouter>
         <Switch>
           <Route exact path={ "/" } component={ Home } />
@@ -39,6 +39,6 @@ export default function App( props: any ) {
           <Route exact path={ "/postNotes" } component={ PostNotesDetails } />
         </Switch>
       </BrowserRouter>
-    </Provider>
+    </Provider >
   );
 }        

@@ -15,9 +15,9 @@ export default function List( props ) {
     }, [] )
     return (
         <div>
-            <div className="row form-group" style={ { padding: 20 } }>
+            <div className="row form-group justify-content-center" style={ { padding: 20 } }>
                 { data.map( ( item: any ) =>
-                    <div className="col-md-3 listItem">
+                    <div className="col-md-3  listItem">
                         <div className="form-group">
                             <span style={ { fontFamily: Fonts.FiraSansRegular, color: Colors.textColorGrey } }>{ item.lang }</span><br />
                             <span style={ { fontFamily: Fonts.FiraSansBold, fontSize: 18, fontWeight: "bold" } }>{ item.title }</span><br />
