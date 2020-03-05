@@ -36,7 +36,7 @@ export default function TopNavbarComp( props ) {
                         <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">IOS</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/contact">About</NavLink>
+                        <NavLink style={ { color: colors.white, fontFamily: fonts.OpenSans } } href="/about">About</NavLink>
                     </NavItem>
                 </Nav>
                 <Nav className="dropdown-menu-right" navbar>

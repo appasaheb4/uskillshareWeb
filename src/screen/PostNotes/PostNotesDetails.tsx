@@ -19,7 +19,6 @@ import {
 
 
 //TODO: Custome Object
-import { apiary } from "../../common/constants/Constants";
 const Slider = require( "react-styled-carousel" ).default;
 var nodemailer = require( "nodemailer" );
 

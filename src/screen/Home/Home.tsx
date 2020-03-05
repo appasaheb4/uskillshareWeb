@@ -24,10 +24,10 @@ import Select from 'react-select';
 import "./Home.css";
 
 import { TopNavbarComp, BottomNavbarComp } from "../../components/Navbar";
+import List from "../../components/Div/List";
 
 //TODO: Custom Object
-import { apiary } from "../../common/constants/Constants";
-import { getUnixTimeDate, getUnixToDateFormat } from "../../common/constants/utils";
+import { getUnixTimeDate } from "../../common/Utilites";
 import fonts from "../../common/Fonts";
 import colors from "../../common/Colors";
 
@@ -192,7 +192,8 @@ export default function Home( props ) {
 
 
   return (
-    <div >
+    <div>
+
       <div>
         <TopNavbarComp
           userDetails={ userDetails }
@@ -203,6 +204,7 @@ export default function Home( props ) {
           clickLogout={ () => clickLogout() }
         />
       </div>
+
       <div>
         <Jumbotron style={ { textAlign: "center", opacity: 0.5 } }>
           <h1 style={ { fontFamily: fonts.Maquire } }>Your Skill Share!</h1>
@@ -211,8 +213,9 @@ export default function Home( props ) {
          </p>
         </Jumbotron>
       </div>
-      <div>
 
+      <div>
+        <List />
       </div>
 
       {/* Modal Login */ }

@@ -11,4 +11,4 @@ export default {
 
   //VoiceActivatedBB
   Maquire: "Maquire"
-};
+};  
